@@ -22,4 +22,7 @@ public interface StudentRepo extends MongoRepository<Student,Integer> {
 
     @Aggregation(pipeline = {"{$match:{'degree': ?0}}", "{$count: 'totalCount'}"})
     List<Student> getTotalStudentsByDegree(String degree);
+    List<Student> findByBioContaining(String keyword);
+    List<Student> findBySkills(String skill);
+
 }

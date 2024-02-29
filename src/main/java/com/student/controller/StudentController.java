@@ -74,5 +74,13 @@ public class StudentController {
     public double avgAge(){
         return studentService.getAverageAge();
     }
+    @GetMapping("/search")
+    public List<Student> searchProducts(@RequestParam String keyword) {
+        return studentRepo.findByBioContaining(keyword);
+    }
+    @GetMapping("/skills")
+    public List<Student> skill(@RequestParam String skill){
+        return studentRepo.findBySkills(skill);
+    }
 
 }

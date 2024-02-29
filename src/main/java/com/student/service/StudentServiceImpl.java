@@ -123,5 +123,4 @@ public class StudentServiceImpl implements StudentService{
 
             return averageAgeResult != null ? averageAgeResult.getAverageAge() : 0.0;
         }
-
 }
