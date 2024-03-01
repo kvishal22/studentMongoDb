@@ -1,6 +1,8 @@
 package com.student.repo;
 
 import com.student.entity.Student;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -24,5 +26,8 @@ public interface StudentRepo extends MongoRepository<Student,Integer> {
     List<Student> getTotalStudentsByDegree(String degree);
     List<Student> findByBioContaining(String keyword);
     List<Student> findBySkills(String skill);
+    @Query("{'age' :{$gt: ?0, $lt: ?1}}")
+    List<Student> findAgeBetween(int minAge,int maxAge);
+    Page<Student > findAllBy(Pageable pageable);
 
 }

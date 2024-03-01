@@ -4,6 +4,8 @@ import com.student.entity.Student;
 import com.student.repo.StudentRepo;
 import com.student.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +23,7 @@ public class StudentController {
         return studentService.getAll();
     }
     @PostMapping
-    public Student saveStudent(@RequestBody Student student){
+    public String saveStudent(@RequestBody Student student){
         return studentService.addAStudent(student);
     }
     @PutMapping("/update/{id}")
@@ -82,5 +84,15 @@ public class StudentController {
     public List<Student> skill(@RequestParam String skill){
         return studentRepo.findBySkills(skill);
     }
-
+    @GetMapping("/ageBetween")
+    public List<Student> ageBw(@RequestParam int minAge,@RequestParam int maxAge){
+        return studentRepo.findAgeBetween(minAge,maxAge);
+    }
+    @GetMapping("/entities")
+    public Page<Student> getEntities(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        PageRequest pageable = PageRequest.of(page, size);
+        return studentRepo.findAllBy(pageable);
+    }
 }

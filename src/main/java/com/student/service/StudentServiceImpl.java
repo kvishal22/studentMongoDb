@@ -8,12 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -28,8 +30,13 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public Student addAStudent(Student student) {
-        return studentRepo.save(student);
+    public String addAStudent(Student student) {
+        Optional<Student> student1 = studentRepo.findByEmail(student.getEmail());
+        if(student1.isPresent()){
+            return "Student already present";
+        }
+         studentRepo.save(student);
+        return "student added";
     }
 
     @Override
